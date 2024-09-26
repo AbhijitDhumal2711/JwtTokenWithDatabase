@@ -17,13 +17,14 @@ import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
 
-	private String secretey = "";
+	private String secretey = " ";
 
 	public JwtService() {
 		try {
@@ -50,6 +51,15 @@ public class JwtService {
 
 	private Key getKey() {
 
+		try {
+	  KeyGenerator generator=KeyGenerator.getInstance("HmacSHA256",secretey);
+	  SecretKey key=generator.generateKey();
+	 secretey=Base64.getEncoder().encodeToString(key.getEncoded());
+	  
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		byte[] keyBytes = Decoders.BASE64.decode(secretey);
 		return Keys.hmacShaKeyFor(keyBytes);
 
@@ -91,5 +101,6 @@ public class JwtService {
 		Date expiredDate = extractExpairation(token);
 		return expiredDate.before(new Date());
 	}
+
 
 }

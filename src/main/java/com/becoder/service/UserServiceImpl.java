@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
 //			return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
 			return jwtService.generateToken(request.getUsername());
+			
+		
 		}
 
 		return null;
@@ -46,6 +48,12 @@ public class UserServiceImpl implements UserService {
 	public List<UserDtls> getUserDtls() {
 		return userRepository.findAll();
 
+	}
+
+	@Override
+	public UserDtls saveUser(UserDtls dtls) {
+		// TODO Auto-generated method stub
+		return userRepository.save(dtls);
 	}
 
 }

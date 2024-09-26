@@ -1,19 +1,27 @@
 package com.becoder.model;
 
+import com.becoder.dto.UserRequest;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class UserDtls {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
+	
 	private Integer id;
 
 	private String username;
 
+	 
+     
 	private String password;
 
 	public Integer getId() {
