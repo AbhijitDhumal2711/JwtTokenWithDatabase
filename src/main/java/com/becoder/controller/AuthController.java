@@ -1,5 +1,7 @@
 package com.becoder.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.becoder.config.JwtHelper;
 import com.becoder.dto.JwtResponse;
 import com.becoder.model.JwtRequest;
+import com.becoder.model.User;
+import com.becoder.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-	 @Autowired
+	
+	@Autowired
+	private UserService userService;
+	 
+	   @Autowired
 	    private UserDetailsService userDetailsService;
 
 	    @Autowired
@@ -72,5 +81,23 @@ public class AuthController {
 	    }
 	    
 	   
+	    @PostMapping("/create")
+	    public User createUser(@RequestBody User user) {
+	   
+	    	return userService.createUser(user);
+	    	
+	    }
+	    
+	    @GetMapping("/users")
+	    public ResponseEntity<List<User>> getAllUsers() {
+	        List<User> users = userService.getAllUsers();
+	        return new ResponseEntity<>(users, HttpStatus.OK);
+	    }
+	    
+	    @GetMapping("/users/{id}")
+	    public User getUser(@PathVariable("id") int id) {
+	    	
+	    	return userService.getOneUser(id);
+	    }
 
 }
